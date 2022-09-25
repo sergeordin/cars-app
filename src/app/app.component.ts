@@ -1,5 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { AppService } from './app.service';
 
 @Component({
   selector: 'app-root',
@@ -14,75 +15,20 @@ export class AppComponent {
     car: ['', Validators.required]
   });
 
-  carsData = [
-    {
-      image: "1.png",
-      name: "Lamborghini Huracan Spyder",
-      transmission: "Автомат",
-      engine: 5.2,
-      year: 2019
-    },
-    {
-      image: "2.png",
-      name: "Chevrolet Corvette",
-      transmission: "Автомат",
-      engine: 6.2,
-      year: 2017
-    },
-    {
-      image: "3.png",
-      name: "Ferrari California",
-      transmission: "Автомат",
-      engine: 3.9,
-      year: 2018
-    },
-    {
-      image: "4.png",
-      name: "Lamborghini Urus",
-      transmission: "Автомат",
-      engine: 4.0,
-      year: 2019
-    },
-    {
-      image: "5.png",
-      name: "Audi R8",
-      transmission: "Автомат",
-      engine: 5.2,
-      year: 2018
-    },
-    {
-      image: "6.png",
-      name: "Chevrolet Camaro",
-      transmission: "Автомат",
-      engine: 2.0,
-      year: 2019
-    },
-    {
-      image: "7.png",
-      name: "Maserati Quattroporte",
-      transmission: "Автомат",
-      engine: 2.0,
-      year: 2018
-    },
-    {
-      image: "8.png",
-      name: "Dodge Challenger",
-      transmission: "Автомат",
-      engine: 2.0,
-      year: 2019
-    },
-    {
-      image: "9.png",
-      name: "Nissan GT-R",
-      transmission: "Автомат",
-      engine: 2.0,
-      year: 2019
-    },
+  carsData: any;
 
-  ];
-
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private AppService: AppService) {
   };
+
+  ngOnInit() {
+    this.AppService.getData(this.category).subscribe(carsData => this.carsData = carsData);
+  }
+
+  category: string = 'sport';
+  toggleCategory(category: string) {
+    this.category = category;
+    this.ngOnInit();
+  }
 
   goScroll(target: HTMLElement, car?: any) {
     target.scrollIntoView({ behavior: "smooth" });
@@ -105,8 +51,19 @@ export class AppComponent {
 
   onSubmit() {
     if (this.priceForm.valid) {
-      alert('Cпасибо за заявку! Мы свяжемся с вами в ближайшене время');
-      this.priceForm.reset();
+
+      this.AppService.sendQuery(this.priceForm.value)
+        .subscribe(
+          {
+            next: (response: any) => {
+              alert(response.message);
+              this.priceForm.reset();
+            },
+            error: (response) => {
+              alert(response.error.message);
+            }
+          }
+        );
     }
   }
 }

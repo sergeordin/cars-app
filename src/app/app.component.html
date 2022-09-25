@@ -1,7 +1,7 @@
 <header class="header">
   <div class="container">
     <div class="logo">
-      <img src="../assets/images/logo.png" alt="Logo">
+      <img src="assets/images/logo.png" alt="Logo">
     </div>
     <nav class="menu">
       <ul>
@@ -32,27 +32,31 @@
 <section class="car" id="cars" #cars>
   <div class="container">
     <h2 class="sub-title">Наш автопарк</h2>
+    <div class="car-toggle">
+      <div [ngClass]="{active: category === 'sport'}" (click)="toggleCategory('sport')">Sport</div>
+      <div [ngClass]="{active: category === 'luxury'}" (click)="toggleCategory('luxury')">Luxury</div>
+    </div>
     <div class="car-items">
       <div class="car-item" *ngFor="let car of carsData">
         <div class="car-item-image">
-          <img src="../assets/images/car/{{car.image}}" alt="Image">
+          <img src="{{car.image}}" alt="Image">
         </div>
         <div class="car-item-title">{{car.name}}</div>
         <div class="car-item-info">
           <div class="car-item-point">
-            <img src="../assets/images/car/icons/transmission.png" alt="Transmission">
-            <div>Коробка</div>
-            <div>{{car.transmission}}</div>
+            <img src="assets/images/transmission.png" alt="Transmission">
+            <div>Привод</div>
+            <div>{{car.gear}}</div>
           </div>
           <div class="car-item-point">
-            <img src="../assets/images/car/icons/wheel.png" alt="Wheel">
+            <img src="assets/images/wheel.png" alt="Wheel">
             <div>Двигатель</div>
             <div>{{car.engine}} л.</div>
           </div>
           <div class="car-item-point">
-            <img src="../assets/images/car/icons/year.png" alt="Year">
-            <div>Год выпуска</div>
-            <div>{{car.year}}</div>
+            <img src="assets/images/year.png" alt="Year">
+            <div>Кол-во мест</div>
+            <div>{{car.places}}</div>
           </div>
         </div>
         <div class="car-item-action">
@@ -77,14 +81,14 @@
       <button class="button" id="price-action" type="button" (click)="onSubmit()" [disabled]="!priceForm.valid">узнать
         цену</button>
     </form>
-    <img src="../assets/images/rolls.png" alt="Rolls" class="price-image" [ngStyle]="trans">
+    <img src="assets/images/rolls.png" alt="Rolls" class="price-image" [ngStyle]="trans">
   </div>
 </section>
 
 <footer class="footer">
   <div class="container">
     <div class="logo">
-      <img src="../assets/images/logo.png" alt="Logo">
+      <img src="assets/images/logo.png" alt="Logo">
     </div>
     <div class="rights">Все права защищены</div>
   </div>
